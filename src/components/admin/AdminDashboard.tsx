@@ -57,6 +57,7 @@ export const AdminDashboard: React.FC = () => {
     orders,
     products,
     reviews,
+    settings,
   } = useStore();
 
   // Sidebar states
@@ -397,13 +398,21 @@ export const AdminDashboard: React.FC = () => {
         >
           {/* Veltrix Logo Lockup */}
           <div className="p-4 border-b border-slate-800 flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-cyan-500 text-slate-950 font-black flex items-center justify-center text-sm shadow-md shadow-cyan-500/20 shrink-0">
-              VX
-            </div>
+            {settings?.logoUrl ? (
+              <img
+                src={settings.logoUrl}
+                alt={settings.storeName || 'Veltrix'}
+                className="h-9 w-auto max-w-[120px] object-contain rounded-lg shrink-0"
+              />
+            ) : (
+              <div className="h-9 w-9 rounded-xl bg-cyan-500 text-slate-950 font-black flex items-center justify-center text-sm shadow-md shadow-cyan-500/20 shrink-0">
+                VX
+              </div>
+            )}
             {!isSidebarCollapsed && (
               <div className="overflow-hidden">
                 <span className="font-extrabold text-sm text-white tracking-tight block truncate">
-                  Veltrix
+                  {settings.storeName || 'Veltrix'}
                 </span>
                 <span className="text-[10px] text-cyan-400 font-semibold tracking-wider uppercase block truncate">
                   Admin Console
@@ -474,11 +483,19 @@ export const AdminDashboard: React.FC = () => {
             <div className="relative w-72 max-w-[80vw] bg-slate-900 border-r border-slate-800 h-full flex flex-col p-4 z-10 shadow-2xl animate-in slide-in-from-left duration-200">
               <div className="flex items-center justify-between pb-4 border-b border-slate-800">
                 <div className="flex items-center gap-2.5">
-                  <div className="h-8 w-8 rounded-lg bg-cyan-500 text-slate-950 font-black flex items-center justify-center text-sm">
-                    VX
-                  </div>
+                  {settings?.logoUrl ? (
+                    <img
+                      src={settings.logoUrl}
+                      alt={settings.storeName || 'Veltrix'}
+                      className="h-8 w-auto max-w-[100px] object-contain rounded-lg"
+                    />
+                  ) : (
+                    <div className="h-8 w-8 rounded-lg bg-cyan-500 text-slate-950 font-black flex items-center justify-center text-sm">
+                      VX
+                    </div>
+                  )}
                   <div>
-                    <span className="font-bold text-white text-sm block">Veltrix Admin</span>
+                    <span className="font-bold text-white text-sm block">{settings?.storeName || 'Veltrix'} Admin</span>
                     <span className="text-[10px] text-cyan-400">Mobile Console</span>
                   </div>
                 </div>

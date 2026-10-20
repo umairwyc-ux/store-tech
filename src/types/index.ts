@@ -247,6 +247,9 @@ export interface StoreSettings {
     tiktok: string;
     youtube: string;
   };
+  logoUrl?: string;
+  updatedAt?: string;
+  updatedBy?: string;
 }
 
 export type AdminTab =

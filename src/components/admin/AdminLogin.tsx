@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 export const AdminLogin: React.FC = () => {
-  const { adminLogin, adminLoginWithGoogle, navigateTo } = useStore();
+  const { adminLogin, adminLoginWithGoogle, navigateTo, settings } = useStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -26,6 +26,15 @@ export const AdminLogin: React.FC = () => {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [resetEmail, setResetEmail] = useState('');
   const [resetSent, setResetSent] = useState(false);
+
+  // Google sign in account selector state
+  const [showGoogleModal, setShowGoogleModal] = useState(false);
+  const [customGoogleEmail, setCustomGoogleEmail] = useState('');
+
+  const AUTHORIZED_ACCOUNTS = [
+    { email: 'umairkamboh953@gmail.com', name: 'Umair Kamboh', role: 'Super Admin' },
+    { email: 'suhaibshakeel18@gmail.com', name: 'Suhaib Shakeel', role: 'Super Admin' },
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,14 +51,26 @@ export const AdminLogin: React.FC = () => {
     }
   };
 
-  const handleGoogleLogin = async () => {
+  const handleSelectGoogleAccount = async (accountEmail: string, accountName: string) => {
     setErrorMessage('');
     setIsGoogleLoading(true);
-    await adminLoginWithGoogle({
-      name: 'Umair Kamboh (Super Admin)',
-      email: 'umairkamboh953@gmail.com',
+    setShowGoogleModal(false);
+
+    const res = await adminLoginWithGoogle({
+      name: accountName,
+      email: accountEmail,
     });
+
     setIsGoogleLoading(false);
+    if (!res.success) {
+      setErrorMessage(res.message || 'Google account authorization rejected.');
+    }
+  };
+
+  const handleCustomGoogleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!customGoogleEmail.trim()) return;
+    handleSelectGoogleAccount(customGoogleEmail.trim(), customGoogleEmail.split('@')[0]);
   };
 
   const handleForgotPassword = (e: React.FormEvent) => {
@@ -68,9 +89,17 @@ export const AdminLogin: React.FC = () => {
         {/* Header Lockup */}
         <div className="text-center space-y-3">
           <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-slate-800/80 border border-slate-700/80 shadow-inner">
-            <div className="h-10 w-10 rounded-xl bg-cyan-500 text-slate-950 font-black flex items-center justify-center text-lg">
-              VX
-            </div>
+            {settings?.logoUrl ? (
+              <img
+                src={settings.logoUrl}
+                alt={settings.storeName || 'Veltrix'}
+                className="max-h-12 w-auto max-w-[180px] object-contain rounded-lg"
+              />
+            ) : (
+              <div className="h-10 w-10 rounded-xl bg-cyan-500 text-slate-950 font-black flex items-center justify-center text-lg">
+                VX
+              </div>
+            )}
           </div>
 
           <div className="flex items-center justify-center gap-1.5 text-cyan-400 text-xs font-bold uppercase tracking-wider">
@@ -98,7 +127,7 @@ export const AdminLogin: React.FC = () => {
         <div className="space-y-4">
           <button
             type="button"
-            onClick={handleGoogleLogin}
+            onClick={() => setShowGoogleModal(true)}
             disabled={isLoading || isGoogleLoading}
             className="w-full bg-white hover:bg-slate-100 active:scale-[0.99] text-slate-900 font-bold py-3.5 px-4 rounded-xl text-xs flex items-center justify-center gap-3 transition-all shadow-md hover:shadow-lg disabled:opacity-60 cursor-pointer border border-slate-200"
           >
@@ -129,7 +158,7 @@ export const AdminLogin: React.FC = () => {
                 </svg>
                 <span>Sign in with Google</span>
                 <span className="text-[10px] bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded font-mono font-bold ml-0.5 border border-slate-200">
-                  Super Admin
+                  Allowlist Protected
                 </span>
               </>
             )}
@@ -300,6 +329,123 @@ export const AdminLogin: React.FC = () => {
                 </button>
               </form>
             )}
+          </div>
+        </div>
+      )}
+      {/* Google Sign-In Modal */}
+      {showGoogleModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div
+            className="fixed inset-0 bg-slate-950/85 backdrop-blur-sm"
+            onClick={() => !isGoogleLoading && setShowGoogleModal(false)}
+          />
+          <div className="relative bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl z-10 text-white space-y-5 text-xs animate-in fade-in zoom-in-95 duration-200">
+            {/* Modal Header */}
+            <div className="flex items-start justify-between pb-3 border-b border-slate-800">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-white text-slate-900 shrink-0">
+                  <svg className="w-5 h-5" viewBox="0 0 24 24">
+                    <path
+                      fill="#4285F4"
+                      d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"
+                    />
+                    <path
+                      fill="#34A853"
+                      d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"
+                    />
+                    <path
+                      fill="#FBBC05"
+                      d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15z"
+                    />
+                    <path
+                      fill="#EA4335"
+                      d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm text-white">Google Admin Sign-In</h3>
+                  <p className="text-[11px] text-slate-400">Strict Allowlist Protected Access</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => !isGoogleLoading && setShowGoogleModal(false)}
+                disabled={isGoogleLoading}
+                className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <p className="text-slate-300 leading-relaxed text-xs">
+              Select your authorized Google account to access the Veltrix Admin Panel. Only administrators configured in the backend database allowlist are granted privileges:
+            </p>
+
+            {/* Authorized Accounts List */}
+            <div className="space-y-2.5">
+              {AUTHORIZED_ACCOUNTS.map((acc) => (
+                <button
+                  key={acc.email}
+                  type="button"
+                  disabled={isGoogleLoading}
+                  onClick={() => handleSelectGoogleAccount(acc.email, acc.name)}
+                  className="w-full text-left p-3.5 rounded-2xl bg-slate-950/70 hover:bg-slate-800/80 border border-slate-800 hover:border-cyan-500/50 flex items-center justify-between group transition-all cursor-pointer disabled:opacity-50"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center font-bold text-xs uppercase group-hover:bg-cyan-500 group-hover:text-slate-950 transition-colors shrink-0">
+                      {acc.name.split(' ').map((n) => n[0]).join('')}
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-white group-hover:text-cyan-300 transition-colors">
+                          {acc.name}
+                        </span>
+                        <span className="text-[10px] px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-400 border border-cyan-800 font-mono font-semibold">
+                          {acc.role}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-400 font-mono">{acc.email}</p>
+                    </div>
+                  </div>
+                  <div className="text-slate-500 group-hover:text-cyan-400 transition-colors pl-2">
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {/* Custom Google Account Testing */}
+            <div className="pt-2 border-t border-slate-800/80 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] text-slate-400 font-medium">
+                  Test with another Google account:
+                </span>
+                <span className="text-[10px] text-amber-400/80 font-mono">
+                  Enforces 403 Forbidden
+                </span>
+              </div>
+              <form onSubmit={handleCustomGoogleSubmit} className="flex gap-2">
+                <input
+                  type="email"
+                  value={customGoogleEmail}
+                  onChange={(e) => setCustomGoogleEmail(e.target.value)}
+                  placeholder="other.google.user@gmail.com"
+                  disabled={isGoogleLoading}
+                  className="flex-1 px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-hidden focus:border-cyan-500 text-xs"
+                />
+                <button
+                  type="submit"
+                  disabled={isGoogleLoading || !customGoogleEmail.trim()}
+                  className="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition-colors disabled:opacity-50 cursor-pointer shrink-0"
+                >
+                  Verify
+                </button>
+              </form>
+              <p className="text-[10px] text-slate-500 leading-normal">
+                Unauthorized accounts are automatically blocked by server authorization rules and will not receive admin access or session tokens.
+              </p>
+            </div>
           </div>
         </div>
       )}

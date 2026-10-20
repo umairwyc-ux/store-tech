@@ -252,6 +252,64 @@ export const ProfileTab: React.FC = () => {
           </form>
         </div>
       </div>
+
+      {/* Card 3: Authorized Google Accounts Allowlist */}
+      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-7 space-y-4 text-xs">
+        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div className="flex items-center gap-2 text-cyan-400 font-bold">
+            <Shield className="w-4 h-4" />
+            <h4 className="text-sm text-white">Authorized Google Administrator Accounts</h4>
+          </div>
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
+            Backend Enforced
+          </span>
+        </div>
+
+        <p className="text-slate-400 leading-relaxed">
+          The following Google accounts are permanently authorized with Super Administrator privileges. Both accounts have full permissions to access the admin panel, manage products, view orders, and publish website settings and logos across all devices.
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+          <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-9 w-9 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-bold flex items-center justify-center text-xs">
+                UK
+              </div>
+              <div>
+                <p className="font-bold text-white">Umair Kamboh</p>
+                <p className="text-[11px] text-slate-400 font-mono">umairkamboh953@gmail.com</p>
+              </div>
+            </div>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center gap-1">
+              <Check className="w-3 h-3" />
+              Authorized
+            </span>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-9 w-9 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-bold flex items-center justify-center text-xs">
+                SS
+              </div>
+              <div>
+                <p className="font-bold text-white">Suhaib Shakeel</p>
+                <p className="text-[11px] text-slate-400 font-mono">suhaibshakeel18@gmail.com</p>
+              </div>
+            </div>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center gap-1">
+              <Check className="w-3 h-3" />
+              Authorized
+            </span>
+          </div>
+        </div>
+
+        <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800/80 flex items-start gap-2.5 text-[11px] text-slate-400">
+          <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+          <span>
+            Security Rule: Any Google account not in this allowlist is strictly rejected at the backend API (<code className="text-cyan-300 font-mono">/api/auth/google</code>) with HTTP 403 Forbidden.
+          </span>
+        </div>
+      </div>
     </div>
   );
 };

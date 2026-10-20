@@ -111,7 +111,7 @@ interface StoreContextType {
   customerRegister: (name: string, email: string, phone: string) => boolean;
   customerLogout: () => void;
   adminLogin: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
-  adminLoginWithGoogle: (googleUser?: { name?: string; email?: string; avatar?: string }) => Promise<{ success: boolean; message?: string }>;
+  adminLoginWithGoogle: (googleUser?: { name?: string; email?: string; avatar?: string; idToken?: string }) => Promise<{ success: boolean; message?: string }>;
   adminLogout: () => void;
   updateAdminProfile: (updates: { name?: string; email?: string; password?: string; avatar?: string }) => { success: boolean; message: string };
 
@@ -135,7 +135,16 @@ interface StoreContextType {
 
   toggleBlockCustomer: (customerEmail: string) => void;
   updateHomepageCMS: (cms: Partial<StoreSettings>) => void;
-  updateSettings: (updates: Partial<StoreSettings>) => void;
+
+  // Settings & Logo Persistence
+  isSettingsLoading: boolean;
+  isSettingsSaving: boolean;
+  settingsSaveError: string | null;
+  lastSavedTimestamp: string | null;
+  updateSettings: (updates: Partial<StoreSettings>) => Promise<{ success: boolean; message?: string }>;
+  uploadLogo: (fileData: string, fileName: string, mimeType: string) => Promise<{ success: boolean; logoUrl?: string; message?: string }>;
+  removeLogo: () => Promise<{ success: boolean; message?: string }>;
+  refetchSettings: () => Promise<void>;
 
   markNotificationRead: (id: string) => void;
   clearAllNotifications: () => void;
@@ -296,6 +305,19 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     getStoredItem(STORAGE_KEYS.ADMIN_USER, null)
   );
 
+  const [adminToken, setAdminToken] = useState<string | null>(() => {
+    try {
+      return localStorage.getItem('storetech_admin_token');
+    } catch {
+      return null;
+    }
+  });
+
+  const [isSettingsLoading, setIsSettingsLoading] = useState<boolean>(true);
+  const [isSettingsSaving, setIsSettingsSaving] = useState<boolean>(false);
+  const [settingsSaveError, setSettingsSaveError] = useState<string | null>(null);
+  const [lastSavedTimestamp, setLastSavedTimestamp] = useState<string | null>(null);
+
   const [activeAdminTab, setActiveAdminTab] = useState<AdminTab>('dashboard');
 
   // Cart & Wishlist
@@ -356,6 +378,63 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return () => {
       window.removeEventListener('popstate', handleLocationChange);
       window.removeEventListener('hashchange', handleLocationChange);
+    };
+  }, []);
+
+  // Refetch settings from backend shared database
+  const refetchSettings = async () => {
+    try {
+      setIsSettingsLoading(true);
+      const res = await fetch('/api/settings');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.settings) {
+          setSettings(data.settings);
+          setLastSavedTimestamp(data.lastSaved || data.settings.updatedAt || null);
+          try {
+            localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(data.settings));
+          } catch {}
+        }
+      }
+    } catch (err) {
+      console.warn('Backend settings fetch failed, retaining existing settings:', err);
+    } finally {
+      setIsSettingsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+    refetchSettings();
+
+    // Verify existing token with backend
+    const savedToken = localStorage.getItem('storetech_admin_token');
+    if (savedToken) {
+      fetch('/api/auth/verify', {
+        headers: { Authorization: `Bearer ${savedToken}` },
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          if (isMounted) {
+            if (data.success && data.admin) {
+              setAdminToken(savedToken);
+              setIsAdminAuthenticated(true);
+              setAdminUser(data.admin);
+            } else {
+              setAdminToken(null);
+              setIsAdminAuthenticated(false);
+              setAdminUser(null);
+              localStorage.removeItem('storetech_admin_token');
+            }
+          }
+        })
+        .catch(() => {
+          // Keep existing state if network transient
+        });
+    }
+
+    return () => {
+      isMounted = false;
     };
   }, []);
 
@@ -785,65 +864,89 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   // Auth - Admin
   const adminLogin = async (email: string, password: string): Promise<{ success: boolean; message?: string }> => {
-    // Simulated network/auth delay
-    await new Promise((resolve) => setTimeout(resolve, 600));
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim(), password }),
+      });
 
-    const cleanEmail = email.trim().toLowerCase();
-    const validEmails = [
-      'admin@veltrix.pk',
-      'admin@veltrix.com',
-      'manager@veltrix.pk',
-      'admin@storetech.pk',
-      'admin@storetech.com',
-      'manager@storetech.pk',
-      'umairkamboh953@gmail.com',
-    ];
+      const data = await res.json();
 
-    const validPasswords = ['admin123', 'veltrix2026', 'veltrix123', 'storetech2026'];
+      if (!res.ok || !data.success) {
+        const errMsg = data.message || 'Access Denied: Invalid administrator credentials.';
+        showToast(errMsg, 'error');
+        return { success: false, message: errMsg };
+      }
 
-    if ((validEmails.includes(cleanEmail) || cleanEmail.includes('admin') || cleanEmail.includes('veltrix')) && (validPasswords.includes(password) || password === 'admin123')) {
-      const adminProfile: AdminUser = {
-        id: 'adm-01',
-        name: 'Veltrix Administrator',
-        email: cleanEmail,
-        role: 'admin',
-        lastLogin: new Date().toISOString(),
-      };
+      setAdminToken(data.token);
+      try {
+        localStorage.setItem('storetech_admin_token', data.token);
+      } catch {}
+
       setIsAdminAuthenticated(true);
-      setAdminUser(adminProfile);
-      showToast('Admin session authorized. Welcome to Veltrix Admin Console!');
+      setAdminUser(data.admin);
+      showToast(data.message || 'Admin session authorized. Welcome to Veltrix Admin Console!', 'success');
       navigateTo('admin', { adminTab: 'dashboard' });
       return { success: true };
+    } catch (err: any) {
+      console.error('Login error:', err);
+      const errMsg = err?.message || 'Network error: Failed to connect to authentication server.';
+      showToast(errMsg, 'error');
+      return { success: false, message: errMsg };
     }
-
-    return {
-      success: false,
-      message: 'Access Denied: Invalid admin email or secret password. Please use authorized credentials.',
-    };
   };
 
-  const adminLoginWithGoogle = async (googleUser?: { name?: string; email?: string; avatar?: string }): Promise<{ success: boolean; message?: string }> => {
-    // Simulated Google OAuth authorization verification
-    await new Promise((resolve) => setTimeout(resolve, 700));
+  const adminLoginWithGoogle = async (googleUser?: { name?: string; email?: string; avatar?: string; idToken?: string }): Promise<{ success: boolean; message?: string }> => {
+    try {
+      const res = await fetch('/api/auth/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: googleUser?.email,
+          name: googleUser?.name,
+          avatar: googleUser?.avatar,
+          idToken: googleUser?.idToken,
+        }),
+      });
 
-    const email = googleUser?.email || 'admin@veltrix.pk';
-    const name = googleUser?.name || 'Umair Kamboh (Super Admin)';
-    const adminProfile: AdminUser = {
-      id: `adm-google-${Date.now()}`,
-      name,
-      email,
-      role: 'admin',
-      lastLogin: new Date().toISOString(),
-      avatar: googleUser?.avatar,
-    };
-    setIsAdminAuthenticated(true);
-    setAdminUser(adminProfile);
-    showToast(`Google authentication verified. Signed in as ${name}!`, 'success');
-    navigateTo('admin', { adminTab: 'dashboard' });
-    return { success: true };
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        const errMsg = data.message || `Google Authentication rejected (HTTP ${res.status})`;
+        showToast(errMsg, 'error');
+        return { success: false, message: errMsg };
+      }
+
+      setAdminToken(data.token);
+      try {
+        localStorage.setItem('storetech_admin_token', data.token);
+      } catch {}
+
+      setIsAdminAuthenticated(true);
+      setAdminUser(data.admin);
+      showToast(data.message || `Signed in as ${data.admin.name}!`, 'success');
+      navigateTo('admin', { adminTab: 'dashboard' });
+      return { success: true };
+    } catch (err: any) {
+      const errMsg = err?.message || 'Network error: Failed to connect to authentication server.';
+      showToast(errMsg, 'error');
+      return { success: false, message: errMsg };
+    }
   };
 
   const adminLogout = () => {
+    const token = adminToken || localStorage.getItem('storetech_admin_token');
+    if (token) {
+      fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      }).catch(() => {});
+    }
+    setAdminToken(null);
+    try {
+      localStorage.removeItem('storetech_admin_token');
+    } catch {}
     setIsAdminAuthenticated(false);
     setAdminUser(null);
     showToast('Admin session terminated safely.', 'info');
@@ -985,9 +1088,122 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     showToast('Homepage CMS settings updated and live on storefront.');
   };
 
-  const updateSettings = (updates: Partial<StoreSettings>) => {
-    setSettings((prev) => ({ ...prev, ...updates }));
-    showToast('Store settings saved successfully.');
+  const updateSettings = async (updates: Partial<StoreSettings>): Promise<{ success: boolean; message?: string }> => {
+    setIsSettingsSaving(true);
+    setSettingsSaveError(null);
+    try {
+      const token = adminToken || localStorage.getItem('storetech_admin_token') || '';
+      const res = await fetch('/api/settings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updates),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        const errMsg = data.message || `Failed to save settings (HTTP ${res.status})`;
+        setSettingsSaveError(errMsg);
+        showToast(errMsg, 'error');
+        return { success: false, message: errMsg };
+      }
+
+      setSettings(data.settings);
+      setLastSavedTimestamp(data.lastSaved || new Date().toISOString());
+      try {
+        localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(data.settings));
+      } catch {}
+
+      showToast('Website settings saved to database and live across all devices!', 'success');
+      return { success: true };
+    } catch (err: any) {
+      const errMsg = err?.message || 'Network error: Unable to connect to backend database.';
+      setSettingsSaveError(errMsg);
+      showToast(errMsg, 'error');
+      return { success: false, message: errMsg };
+    } finally {
+      setIsSettingsSaving(false);
+    }
+  };
+
+  const uploadLogo = async (fileData: string, fileName: string, mimeType: string): Promise<{ success: boolean; logoUrl?: string; message?: string }> => {
+    setIsSettingsSaving(true);
+    setSettingsSaveError(null);
+    try {
+      const token = adminToken || localStorage.getItem('storetech_admin_token') || '';
+      const res = await fetch('/api/logo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ fileData, fileName, mimeType }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        const errMsg = data.message || `Failed to upload logo (HTTP ${res.status})`;
+        setSettingsSaveError(errMsg);
+        showToast(errMsg, 'error');
+        return { success: false, message: errMsg };
+      }
+
+      setSettings(data.settings);
+      setLastSavedTimestamp(data.settings.updatedAt || new Date().toISOString());
+      try {
+        localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(data.settings));
+      } catch {}
+
+      showToast('Website logo uploaded and saved to shared database!', 'success');
+      return { success: true, logoUrl: data.logoUrl };
+    } catch (err: any) {
+      const errMsg = err?.message || 'Network error: Failed to upload logo to server.';
+      setSettingsSaveError(errMsg);
+      showToast(errMsg, 'error');
+      return { success: false, message: errMsg };
+    } finally {
+      setIsSettingsSaving(false);
+    }
+  };
+
+  const removeLogo = async (): Promise<{ success: boolean; message?: string }> => {
+    setIsSettingsSaving(true);
+    setSettingsSaveError(null);
+    try {
+      const token = adminToken || localStorage.getItem('storetech_admin_token') || '';
+      const res = await fetch('/api/logo', {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        const errMsg = data.message || `Failed to remove logo (HTTP ${res.status})`;
+        setSettingsSaveError(errMsg);
+        showToast(errMsg, 'error');
+        return { success: false, message: errMsg };
+      }
+
+      setSettings(data.settings);
+      setLastSavedTimestamp(data.settings.updatedAt || new Date().toISOString());
+      try {
+        localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(data.settings));
+      } catch {}
+
+      showToast('Custom logo removed. Website reverted to default brand mark.', 'info');
+      return { success: true };
+    } catch (err: any) {
+      const errMsg = err?.message || 'Network error: Failed to remove logo from server.';
+      setSettingsSaveError(errMsg);
+      showToast(errMsg, 'error');
+      return { success: false, message: errMsg };
+    } finally {
+      setIsSettingsSaving(false);
+    }
   };
 
   const markNotificationRead = (id: string) => {
@@ -1080,7 +1296,14 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         rejectPayment,
         toggleBlockCustomer,
         updateHomepageCMS,
+        isSettingsLoading,
+        isSettingsSaving,
+        settingsSaveError,
+        lastSavedTimestamp,
         updateSettings,
+        uploadLogo,
+        removeLogo,
+        refetchSettings,
         markNotificationRead,
         clearAllNotifications,
         galleryAssets,

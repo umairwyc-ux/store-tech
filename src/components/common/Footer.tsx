@@ -76,9 +76,17 @@ export const Footer: React.FC = () => {
           {/* Col 1: Brand Info */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="h-8 w-8 rounded-lg bg-cyan-500 text-slate-950 font-black flex items-center justify-center text-base">
-                VX
-              </div>
+              {settings.logoUrl ? (
+                <img
+                  src={settings.logoUrl}
+                  alt={settings.storeName || 'Veltrix'}
+                  className="max-h-10 w-auto max-w-[160px] object-contain rounded-lg"
+                />
+              ) : (
+                <div className="h-8 w-8 rounded-lg bg-cyan-500 text-slate-950 font-black flex items-center justify-center text-base shrink-0">
+                  VX
+                </div>
+              )}
               <span className="text-xl font-bold tracking-tight text-white">
                 {settings.storeName || 'Veltrix'}
               </span>

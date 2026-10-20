@@ -879,6 +879,7 @@ export const INITIAL_SETTINGS: StoreSettings = {
     tiktok: 'https://tiktok.com/@veltrix.pk',
     youtube: 'https://youtube.com/@veltrixpk',
   },
+  logoUrl: '',
 };
 
 export const INITIAL_NOTIFICATIONS = [

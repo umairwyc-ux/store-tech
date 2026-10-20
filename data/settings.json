@@ -1,0 +1,47 @@
+{
+  "storeName": "Veltrix",
+  "tagline": "Smart Technology. Better Shopping.",
+  "contactNumber": "+92 42 35879201",
+  "email": "support@veltrix.pk",
+  "whatsappNumber": "+923001234567",
+  "whatsappMessage": "Hello Veltrix! I need assistance with product availability and orders.",
+  "storeAddress": "Plaza 45, Main Boulevard, Gulberg III, Lahore, Pakistan",
+  "businessHours": "Monday – Saturday: 10:00 AM – 9:00 PM PKT",
+  "standardDeliveryFee": 250,
+  "expressDeliveryFee": 500,
+  "freeDeliveryThreshold": 15000,
+  "estimatedDeliveryTime": "1-3 Business Days Across Pakistan",
+  "heroHeading": "Smart Technology. Better Shopping.",
+  "heroSubtitle": "Discover the latest gadgets, electronics and accessories at Veltrix.",
+  "heroButtonText": "Shop Now",
+  "heroImage": "/src/assets/images/hero_tech_ecosystem_1791470421435.jpg",
+  "promoHeading": "Upgrade Your Everyday Tech.",
+  "promoSubtitle": "Explore the latest gadgets designed for modern life.",
+  "promoButtonText": "Explore Collection",
+  "promoImage": "/src/assets/images/promo_upgrade_tech_1791470438227.jpg",
+  "bankDetails": {
+    "bankName": "Meezan Bank Limited",
+    "accountTitle": "VELTRIX PRIVATE LIMITED",
+    "accountNumber": "0201010892019482",
+    "iban": "PK45MEZN0002010108920194",
+    "branchCode": "0201 (Gulberg Lahore)"
+  },
+  "jazzCashDetails": {
+    "accountTitle": "Veltrix Official",
+    "mobileNumber": "0300-1234567",
+    "tillNumber": "94821"
+  },
+  "easyPaisaDetails": {
+    "accountTitle": "Veltrix Digital",
+    "mobileNumber": "0345-9876543"
+  },
+  "socialLinks": {
+    "facebook": "https://facebook.com/veltrix.pk",
+    "instagram": "https://instagram.com/veltrix.pk",
+    "tiktok": "https://tiktok.com/@veltrix.pk",
+    "youtube": "https://youtube.com/@veltrixpk"
+  },
+  "logoUrl": "",
+  "updatedAt": "2026-10-20T07:00:00.000Z",
+  "updatedBy": "system"
+}

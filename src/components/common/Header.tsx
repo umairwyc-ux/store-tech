@@ -95,9 +95,17 @@ export const Header: React.FC = () => {
               className="group flex items-center gap-2.5 text-left focus-visible:outline-hidden"
               aria-label="Veltrix Home"
             >
-              <div className="h-9 w-9 rounded-lg bg-slate-900 flex items-center justify-center text-white font-black text-lg tracking-tighter shadow-xs group-hover:bg-cyan-600 transition-colors">
-                VX
-              </div>
+              {settings.logoUrl ? (
+                <img
+                  src={settings.logoUrl}
+                  alt={settings.storeName || 'Veltrix'}
+                  className="max-h-10 w-auto max-w-[160px] object-contain rounded-lg"
+                />
+              ) : (
+                <div className="h-9 w-9 rounded-lg bg-slate-900 flex items-center justify-center text-white font-black text-lg tracking-tighter shadow-xs group-hover:bg-cyan-600 transition-colors shrink-0">
+                  VX
+                </div>
+              )}
               <div>
                 <span className="font-extrabold text-xl tracking-tight text-slate-900 group-hover:text-cyan-600 transition-colors block leading-tight">
                   {settings.storeName || 'Veltrix'}
@@ -227,9 +235,17 @@ export const Header: React.FC = () => {
             {/* Header */}
             <div className="p-4 border-b border-slate-100 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-lg bg-slate-900 flex items-center justify-center text-white font-extrabold text-sm">
-                  VX
-                </div>
+                {settings.logoUrl ? (
+                  <img
+                    src={settings.logoUrl}
+                    alt={settings.storeName || 'Veltrix'}
+                    className="max-h-8 w-auto max-w-[110px] object-contain rounded-lg"
+                  />
+                ) : (
+                  <div className="h-8 w-8 rounded-lg bg-slate-900 flex items-center justify-center text-white font-extrabold text-sm shrink-0">
+                    VX
+                  </div>
+                )}
                 <span className="font-bold text-slate-900">{settings.storeName || 'Veltrix'}</span>
               </div>
               <button
