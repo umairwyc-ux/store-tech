@@ -112,7 +112,7 @@ export const SettingsTab: React.FC = () => {
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                placeholder="support@storetech.pk"
+                placeholder="support@veltrix.pk"
                 className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-hidden focus:border-cyan-500"
               />
             </div>

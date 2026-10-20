@@ -332,7 +332,7 @@ export const AdminDashboard: React.FC = () => {
                 <div className="absolute right-0 mt-2 w-52 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl z-40 py-1.5 text-xs">
                   <div className="px-3.5 py-2 border-b border-slate-800">
                     <p className="font-bold text-white">{adminUser?.name || 'Administrator'}</p>
-                    <p className="text-[11px] text-slate-400 truncate">{adminUser?.email || 'admin@storetech.pk'}</p>
+                    <p className="text-[11px] text-slate-400 truncate">{adminUser?.email || 'admin@veltrix.pk'}</p>
                   </div>
 
                   <button
@@ -395,15 +395,15 @@ export const AdminDashboard: React.FC = () => {
             isSidebarCollapsed ? 'w-20' : 'w-64'
           }`}
         >
-          {/* Store Tech Logo Lockup */}
+          {/* Veltrix Logo Lockup */}
           <div className="p-4 border-b border-slate-800 flex items-center gap-3">
             <div className="h-9 w-9 rounded-xl bg-cyan-500 text-slate-950 font-black flex items-center justify-center text-sm shadow-md shadow-cyan-500/20 shrink-0">
-              ST
+              VX
             </div>
             {!isSidebarCollapsed && (
               <div className="overflow-hidden">
                 <span className="font-extrabold text-sm text-white tracking-tight block truncate">
-                  Store Tech
+                  Veltrix
                 </span>
                 <span className="text-[10px] text-cyan-400 font-semibold tracking-wider uppercase block truncate">
                   Admin Console
@@ -475,10 +475,10 @@ export const AdminDashboard: React.FC = () => {
               <div className="flex items-center justify-between pb-4 border-b border-slate-800">
                 <div className="flex items-center gap-2.5">
                   <div className="h-8 w-8 rounded-lg bg-cyan-500 text-slate-950 font-black flex items-center justify-center text-sm">
-                    ST
+                    VX
                   </div>
                   <div>
-                    <span className="font-bold text-white text-sm block">Store Tech Admin</span>
+                    <span className="font-bold text-white text-sm block">Veltrix Admin</span>
                     <span className="text-[10px] text-cyan-400">Mobile Console</span>
                   </div>
                 </div>

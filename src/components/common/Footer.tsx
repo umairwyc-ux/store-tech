@@ -77,10 +77,10 @@ export const Footer: React.FC = () => {
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-2.5">
               <div className="h-8 w-8 rounded-lg bg-cyan-500 text-slate-950 font-black flex items-center justify-center text-base">
-                ST
+                VX
               </div>
               <span className="text-xl font-bold tracking-tight text-white">
-                Store Tech
+                {settings.storeName || 'Veltrix'}
               </span>
             </div>
             <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
@@ -93,7 +93,7 @@ export const Footer: React.FC = () => {
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-cyan-400 shrink-0" />
-                <span>{settings.contactNumber} / UAN 111-STORE-PK</span>
+                <span>{settings.contactNumber} / UAN 111-VELTRIX</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-cyan-400 shrink-0" />
@@ -260,7 +260,7 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <p>© 2026 Store Tech Pakistan. All Rights Reserved. Reg. No. 0184920.</p>
+          <p>© 2026 {settings.storeName || 'Veltrix'} Pakistan. All Rights Reserved. Reg. No. 0184920.</p>
           <div className="flex items-center gap-4">
             <span>Karachi & Lahore Fulfillment Centers</span>
             <span aria-hidden="true">·</span>

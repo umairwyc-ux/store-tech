@@ -13,7 +13,7 @@ export const WhatsAppButton: React.FC = () => {
     cleanNumber = '92' + cleanNumber;
   }
 
-  const defaultMsg = 'Hello Store Tech! I need assistance with product availability and orders.';
+  const defaultMsg = 'Hello Veltrix! I need assistance with product availability and orders.';
   const encodedMessage = encodeURIComponent(settings?.whatsappMessage || defaultMsg);
   // Universal wa.me link directly opens mobile WhatsApp app or WhatsApp Web
   const whatsappUrl = `https://wa.me/${cleanNumber}?text=${encodedMessage}`;

@@ -4,7 +4,7 @@ import { ArrowRight, Sparkles, ShieldCheck, Zap, Laptop, Smartphone, Headphones 
 import { HERO_IMAGE } from '../../data/mockData';
 
 export const HeroSection: React.FC = () => {
-  const { navigateTo } = useStore();
+  const { navigateTo, settings } = useStore();
 
   return (
     <section className="relative overflow-hidden bg-slate-950 text-white pt-12 pb-20 lg:pt-18 lg:pb-28">
@@ -29,7 +29,7 @@ export const HeroSection: React.FC = () => {
             </h1>
 
             <p className="text-base sm:text-lg text-slate-400 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Discover the latest gadgets, electronics and accessories at Store Tech. From flagship titanium smartphones to high-performance ultrabooks and studio audio.
+              {settings.heroSubtitle || `Discover the latest gadgets, electronics and accessories at ${settings.storeName || 'Veltrix'}. From flagship titanium smartphones to high-performance ultrabooks and studio audio.`}
             </p>
 
             {/* CTAs */}
@@ -73,7 +73,7 @@ export const HeroSection: React.FC = () => {
             <div className="relative rounded-3xl overflow-hidden border border-slate-800/80 bg-slate-900 shadow-2xl shadow-cyan-950/20 group">
               <img
                 src={HERO_IMAGE}
-                alt="Store Tech Ecosystem - Flagship Smartphone, Laptop, Smartwatch and Earbuds"
+                alt="Veltrix Ecosystem - Flagship Smartphone, Laptop, Smartwatch and Earbuds"
                 referrerPolicy="no-referrer"
                 className="w-full h-auto object-cover group-hover:scale-102 transition-transform duration-700"
               />

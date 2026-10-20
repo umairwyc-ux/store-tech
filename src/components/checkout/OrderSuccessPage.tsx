@@ -23,7 +23,7 @@ export const OrderSuccessPage: React.FC = () => {
             Order Placed Successfully!
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto mt-2 leading-relaxed">
-            Thank you for shopping with Store Tech. We have sent a confirmation receipt to your email and SMS dispatch update.
+            Thank you for shopping with Veltrix. We have sent a confirmation receipt to your email and SMS dispatch update.
           </p>
         </div>
 

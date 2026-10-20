@@ -494,7 +494,7 @@ export const CheckoutPage: React.FC = () => {
                     <div>
                       <p className="font-bold text-slate-900">JazzCash Mobile Account</p>
                       <p className="text-slate-500 text-[11px] mt-0.5">
-                        Instant transfer to Store Tech Till / Mobile Wallet.
+                        Instant transfer to Veltrix Till / Mobile Wallet.
                       </p>
                     </div>
                   </label>
@@ -518,7 +518,7 @@ export const CheckoutPage: React.FC = () => {
                     <div>
                       <p className="font-bold text-slate-900">Easypaisa Wallet</p>
                       <p className="text-slate-500 text-[11px] mt-0.5">
-                        Direct transfer to official Store Tech account.
+                        Direct transfer to official Veltrix account.
                       </p>
                     </div>
                   </label>
@@ -673,7 +673,7 @@ export const CheckoutPage: React.FC = () => {
                       </div>
 
                       <div className="p-2.5 rounded-lg bg-amber-950/40 border border-amber-800/60 text-[11px] text-amber-300">
-                        Notice: Online payment orders enter <strong>Payment Verification</strong> status until verified by the Store Tech finance admin.
+                        Notice: Online payment orders enter <strong>Payment Verification</strong> status until verified by the Veltrix finance admin.
                       </div>
                     </div>
                   </div>
@@ -699,8 +699,8 @@ export const CheckoutPage: React.FC = () => {
                       className="py-3 flex items-center gap-3 text-xs"
                     >
                       <img
-                        src={sanitizeImageUrl(item.product?.images?.[0] || item.image) || PHONE_IMAGE}
-                        alt={item.product?.name || item.name}
+                        src={sanitizeImageUrl(item.product?.images?.[0]) || PHONE_IMAGE}
+                        alt={item.product?.name || 'Product'}
                         onError={(e) => {
                           if (e.currentTarget.src !== PHONE_IMAGE) {
                             e.currentTarget.src = PHONE_IMAGE;

@@ -21,7 +21,7 @@ export const AboutPage: React.FC = () => {
         <div className="bg-slate-900 rounded-3xl p-8 sm:p-14 text-white relative overflow-hidden">
           <div className="max-w-2xl space-y-4 relative z-10">
             <span className="text-xs font-bold uppercase tracking-wider text-cyan-400">
-              About Store Tech Pakistan
+              About Veltrix Pakistan
             </span>
             <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
               Pioneering Genuine Technology Retail.
@@ -45,14 +45,14 @@ export const AboutPage: React.FC = () => {
               In 2022, acquiring a genuine flagship smartphone, audiophile headphone, or high-tier ultrabook in Pakistan meant dealing with unverified street sellers, duplicate cables, and PTA tax confusion.
             </p>
             <p>
-              Store Tech was created to establish a gold standard in consumer electronics. Today, operating temperature-controlled fulfillment hubs in <strong>Gulberg Lahore</strong> and <strong>Clifton Karachi</strong>, we dispatch to over 200 cities across Pakistan with zero tolerance for counterfeit parts.
+              Veltrix was created to establish a gold standard in consumer electronics. Today, operating temperature-controlled fulfillment hubs in <strong>Gulberg Lahore</strong> and <strong>Clifton Karachi</strong>, we dispatch to over 200 cities across Pakistan with zero tolerance for counterfeit parts.
             </p>
           </div>
 
           <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200">
             <img
               src={PROMO_IMAGE}
-              alt="Store Tech Quality Testing"
+              alt="Veltrix Quality Testing"
               referrerPolicy="no-referrer"
               className="w-full h-80 object-cover"
             />
@@ -96,7 +96,7 @@ export const AboutPage: React.FC = () => {
         <div className="bg-white rounded-3xl border border-slate-200/90 p-8 sm:p-12 shadow-xs">
           <div className="max-w-3xl space-y-4">
             <span className="text-xs font-bold uppercase tracking-wider text-cyan-600">
-              The Store Tech Guarantee
+              The Veltrix Guarantee
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
               Our 4 Pillars of Quality
@@ -140,7 +140,7 @@ export const AboutPage: React.FC = () => {
                 onClick={() => navigateTo('shop')}
                 className="px-6 py-3 bg-slate-900 hover:bg-cyan-600 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition-colors shadow-xs"
               >
-                <span>Browse Store Tech Catalog</span>
+                <span>Browse Veltrix Catalog</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>

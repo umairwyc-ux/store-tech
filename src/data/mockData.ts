@@ -72,7 +72,7 @@ export const STORE_GALLERY_ASSETS: GalleryAsset[] = [
   { id: 'g-charger', title: 'GaN Fast Charger & Cable', url: CHARGER_IMAGE, category: 'Chargers & Cables' },
   { id: 'g-smarthome', title: 'Aura Ambient Smart Speaker', url: SMARTHOME_IMAGE, category: 'Smart Home' },
   { id: 'g-accessories', title: 'Magnetic Protection & Stand', url: ACCESSORIES_IMAGE, category: 'Mobile Accessories' },
-  { id: 'g-ecosystem', title: 'Store Tech Complete Ecosystem', url: HERO_IMAGE, category: 'Ecosystem' },
+  { id: 'g-ecosystem', title: 'Veltrix Complete Ecosystem', url: HERO_IMAGE, category: 'Ecosystem' },
 ];
 
 export const INITIAL_CATEGORIES: Category[] = [
@@ -625,7 +625,7 @@ export const INITIAL_REVIEWS: Review[] = [
     city: 'Lahore (Gulberg)',
     rating: 5,
     date: 'March 14, 2026',
-    comment: 'Unbelievable phone! Delivered within 24 hours via express delivery in Lahore. Box was factory sealed with authentic PTA approval sticker verified. Store Tech is 100% trustworthy.',
+    comment: 'Unbelievable phone! Delivered within 24 hours via express delivery in Lahore. Box was factory sealed with authentic PTA approval sticker verified. Veltrix is 100% trustworthy.',
     verifiedPurchase: true,
     isApproved: true,
   },
@@ -813,7 +813,7 @@ export const INITIAL_COUPONS: Coupon[] = [
   },
   {
     id: 'cp-2',
-    code: 'STORETECH2000',
+    code: 'VELTRIX2000',
     discountType: 'fixed',
     discountValue: 2000,
     minOrderAmount: 30000,
@@ -837,12 +837,12 @@ export const INITIAL_COUPONS: Coupon[] = [
 ];
 
 export const INITIAL_SETTINGS: StoreSettings = {
-  storeName: 'Store Tech',
+  storeName: 'Veltrix',
   tagline: 'Smart Technology. Better Shopping.',
   contactNumber: '+92 42 35879201',
-  email: 'support@storetech.pk',
+  email: 'support@veltrix.pk',
   whatsappNumber: '+923001234567',
-  whatsappMessage: 'Hello Store Tech, I need help with an order.',
+  whatsappMessage: 'Hello Veltrix! I need assistance with product availability and orders.',
   storeAddress: 'Plaza 45, Main Boulevard, Gulberg III, Lahore, Pakistan',
   businessHours: 'Monday – Saturday: 10:00 AM – 9:00 PM PKT',
   standardDeliveryFee: 250,
@@ -850,7 +850,7 @@ export const INITIAL_SETTINGS: StoreSettings = {
   freeDeliveryThreshold: 15000,
   estimatedDeliveryTime: '1-3 Business Days Across Pakistan',
   heroHeading: 'Smart Technology. Better Shopping.',
-  heroSubtitle: 'Discover the latest gadgets, electronics and accessories at Store Tech.',
+  heroSubtitle: 'Discover the latest gadgets, electronics and accessories at Veltrix.',
   heroButtonText: 'Shop Now',
   heroImage: HERO_IMAGE,
   promoHeading: 'Upgrade Your Everyday Tech.',
@@ -859,25 +859,25 @@ export const INITIAL_SETTINGS: StoreSettings = {
   promoImage: PROMO_IMAGE,
   bankDetails: {
     bankName: 'Meezan Bank Limited',
-    accountTitle: 'STORE TECH PRIVATE LIMITED',
+    accountTitle: 'VELTRIX PRIVATE LIMITED',
     accountNumber: '0201010892019482',
     iban: 'PK45MEZN0002010108920194',
     branchCode: '0201 (Gulberg Lahore)',
   },
   jazzCashDetails: {
-    accountTitle: 'Store Tech Official',
+    accountTitle: 'Veltrix Official',
     mobileNumber: '0300-1234567',
     tillNumber: '94821',
   },
   easyPaisaDetails: {
-    accountTitle: 'Store Tech Digital',
+    accountTitle: 'Veltrix Digital',
     mobileNumber: '0345-9876543',
   },
   socialLinks: {
-    facebook: 'https://facebook.com/storetech.pk',
-    instagram: 'https://instagram.com/storetech.pk',
-    tiktok: 'https://tiktok.com/@storetech.pk',
-    youtube: 'https://youtube.com/@storetechpk',
+    facebook: 'https://facebook.com/veltrix.pk',
+    instagram: 'https://instagram.com/veltrix.pk',
+    tiktok: 'https://tiktok.com/@veltrix.pk',
+    youtube: 'https://youtube.com/@veltrixpk',
   },
 };
 

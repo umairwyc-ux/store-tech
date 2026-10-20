@@ -85,7 +85,7 @@ export const CustomerAccountModal: React.FC = () => {
 
         <div>
           <h2 className="text-xl font-bold text-slate-900 mb-1">
-            {mode === 'login' ? 'Welcome Back' : 'Join Store Tech'}
+            {mode === 'login' ? 'Welcome Back' : 'Join Veltrix'}
           </h2>
           <p className="text-xs text-slate-500 mb-6">
             {mode === 'login'
@@ -196,7 +196,7 @@ export const CustomerAccountModal: React.FC = () => {
                 className="text-[11px] text-slate-500 hover:text-slate-800 font-medium inline-flex items-center gap-1 transition-colors"
               >
                 <ShieldCheck className="w-3 h-3 text-cyan-600" />
-                <span>Store Tech Operations? Go to Admin Portal</span>
+                <span>Veltrix Operations? Go to Admin Portal</span>
               </button>
             </div>
           </div>

@@ -277,7 +277,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ onOpenOrder }) => {
 
           <div className="flex items-center justify-between text-xs text-slate-400 pt-1">
             <span>Average Order Value: <strong className="text-white font-mono">Rs. 38,420</strong></span>
-            <span className="text-cyan-400 font-semibold">Verified by Store Tech Finance</span>
+            <span className="text-cyan-400 font-semibold">Verified by Veltrix Finance</span>
           </div>
         </div>
 

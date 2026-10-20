@@ -20,8 +20,8 @@ import {
 export const ProfileTab: React.FC = () => {
   const { adminUser, updateAdminProfile, adminLogout, showToast } = useStore();
 
-  const [name, setName] = useState(adminUser?.name || 'Store Tech Super Administrator');
-  const [email, setEmail] = useState(adminUser?.email || 'admin@storetech.pk');
+  const [name, setName] = useState(adminUser?.name || 'Veltrix Super Administrator');
+  const [email, setEmail] = useState(adminUser?.email || 'admin@veltrix.pk');
 
   // Change Password State
   const [currentPassword, setCurrentPassword] = useState('');
@@ -81,7 +81,7 @@ export const ProfileTab: React.FC = () => {
       <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div className="flex items-center gap-4">
           <div className="h-16 w-16 rounded-2xl bg-cyan-500 text-slate-950 font-black text-xl flex items-center justify-center shadow-lg shadow-cyan-500/20">
-            ST
+            VX
           </div>
           <div className="space-y-1">
             <div className="flex items-center gap-2">
@@ -91,7 +91,7 @@ export const ProfileTab: React.FC = () => {
                 Super Admin
               </span>
             </div>
-            <p className="text-xs text-slate-400 font-mono">{adminUser?.email || 'admin@storetech.pk'}</p>
+            <p className="text-xs text-slate-400 font-mono">{adminUser?.email || 'admin@veltrix.pk'}</p>
             <div className="flex items-center gap-3 text-[11px] text-slate-500 pt-0.5">
               <span className="flex items-center gap-1">
                 <Clock className="w-3 h-3 text-slate-400" />

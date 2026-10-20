@@ -69,13 +69,13 @@ export const AdminLogin: React.FC = () => {
         <div className="text-center space-y-3">
           <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-slate-800/80 border border-slate-700/80 shadow-inner">
             <div className="h-10 w-10 rounded-xl bg-cyan-500 text-slate-950 font-black flex items-center justify-center text-lg">
-              ST
+              VX
             </div>
           </div>
 
           <div className="flex items-center justify-center gap-1.5 text-cyan-400 text-xs font-bold uppercase tracking-wider">
             <ShieldCheck className="w-4 h-4" />
-            <span>Store Tech Admin</span>
+            <span>Veltrix Admin</span>
           </div>
 
           <h1 className="text-2xl font-black tracking-tight text-white">
@@ -161,7 +161,7 @@ export const AdminLogin: React.FC = () => {
                   setEmail(e.target.value);
                   setErrorMessage('');
                 }}
-                placeholder="admin@storetech.pk"
+                placeholder="admin@veltrix.pk"
                 className="w-full pl-10 pr-3.5 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-hidden focus:border-cyan-500 transition-colors"
               />
             </div>
@@ -235,7 +235,7 @@ export const AdminLogin: React.FC = () => {
             className="text-xs text-slate-400 hover:text-white inline-flex items-center gap-1.5 transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Return to Store Tech Shopping Experience</span>
+            <span>Return to Veltrix Shopping Experience</span>
           </button>
         </div>
       </div>
@@ -288,7 +288,7 @@ export const AdminLogin: React.FC = () => {
                     required
                     value={resetEmail}
                     onChange={(e) => setResetEmail(e.target.value)}
-                    placeholder="admin@storetech.pk"
+                    placeholder="admin@veltrix.pk"
                     className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white"
                   />
                 </div>

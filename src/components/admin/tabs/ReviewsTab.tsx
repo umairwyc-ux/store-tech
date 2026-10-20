@@ -79,7 +79,7 @@ export const ReviewsTab: React.FC = () => {
       <div>
         <h2 className="text-lg font-bold text-white tracking-tight">Review & Customer Feedback Moderation</h2>
         <p className="text-xs text-slate-400">
-          Moderate verified buyer reviews, approve genuine product feedback, and maintain Store Tech quality reputation.
+          Moderate verified buyer reviews, approve genuine product feedback, and maintain Veltrix quality reputation.
         </p>
       </div>
 
@@ -244,7 +244,7 @@ export const ReviewsTab: React.FC = () => {
                           />
                         )}
                         <span className="font-semibold text-slate-200 truncate block">
-                          {prod?.name || 'Store Tech Gadget'}
+                          {prod?.name || 'Veltrix Gadget'}
                         </span>
                       </div>
                     </td>

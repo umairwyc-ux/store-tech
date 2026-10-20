@@ -23,6 +23,7 @@ export const Header: React.FC = () => {
     setIsAccountModalOpen,
     activeUser,
     isAdminAuthenticated,
+    settings,
   } = useStore();
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -92,14 +93,14 @@ export const Header: React.FC = () => {
             <button
               onClick={() => navigateTo('home')}
               className="group flex items-center gap-2.5 text-left focus-visible:outline-hidden"
-              aria-label="Store Tech Home"
+              aria-label="Veltrix Home"
             >
               <div className="h-9 w-9 rounded-lg bg-slate-900 flex items-center justify-center text-white font-black text-lg tracking-tighter shadow-xs group-hover:bg-cyan-600 transition-colors">
-                ST
+                VX
               </div>
               <div>
                 <span className="font-extrabold text-xl tracking-tight text-slate-900 group-hover:text-cyan-600 transition-colors block leading-tight">
-                  Store Tech
+                  {settings.storeName || 'Veltrix'}
                 </span>
                 <span className="text-[10px] text-slate-400 font-semibold tracking-wider uppercase block">
                   Pakistan
@@ -227,9 +228,9 @@ export const Header: React.FC = () => {
             <div className="p-4 border-b border-slate-100 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="h-8 w-8 rounded-lg bg-slate-900 flex items-center justify-center text-white font-extrabold text-sm">
-                  ST
+                  VX
                 </div>
-                <span className="font-bold text-slate-900">Store Tech</span>
+                <span className="font-bold text-slate-900">{settings.storeName || 'Veltrix'}</span>
               </div>
               <button
                 onClick={() => setMobileMenuOpen(false)}
@@ -303,7 +304,7 @@ export const Header: React.FC = () => {
 
             {/* Bottom contact info */}
             <div className="mt-auto p-4 border-t border-slate-100 bg-slate-50 text-xs text-slate-500 space-y-1">
-              <p className="font-semibold text-slate-800">Store Tech Pakistan</p>
+              <p className="font-semibold text-slate-800">{settings.storeName || 'Veltrix'} Pakistan</p>
               <p>Helpline: +92 42 35879201</p>
               <p>WhatsApp: +92 300 1234567</p>
               <p className="text-[11px] text-slate-400 pt-1">

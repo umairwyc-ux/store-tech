@@ -36,7 +36,7 @@ export const ContactPage: React.FC = () => {
 
   const faqs = [
     {
-      q: 'Are all smartphones sold by Store Tech PTA approved?',
+      q: 'Are all smartphones sold by Veltrix PTA approved?',
       a: 'Yes, 100%. Every cellular device comes with official dual-SIM PTA duty settled. You receive the authentic PTA verification code and warranty card in the box.',
     },
     {
@@ -68,7 +68,7 @@ export const ContactPage: React.FC = () => {
             Get In Touch
           </span>
           <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-950 tracking-tight">
-            Contact Store Tech
+            Contact Veltrix
           </h1>
           <p className="text-xs sm:text-sm text-slate-500">
             Have questions about an upcoming order, specifications, or corporate bulk purchasing? We're here to assist.

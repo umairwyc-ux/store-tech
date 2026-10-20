@@ -205,9 +205,41 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [coupons, setCoupons] = useState<Coupon[]>(() =>
     getStoredItem(STORAGE_KEYS.COUPONS, INITIAL_COUPONS)
   );
-  const [settings, setSettings] = useState<StoreSettings>(() =>
-    getStoredItem(STORAGE_KEYS.SETTINGS, INITIAL_SETTINGS)
-  );
+  const [settings, setSettings] = useState<StoreSettings>(() => {
+    const stored = getStoredItem<StoreSettings>(STORAGE_KEYS.SETTINGS, INITIAL_SETTINGS);
+    if (!stored || stored.storeName === 'Store Tech' || !stored.storeName) {
+      const upgraded: StoreSettings = {
+        ...INITIAL_SETTINGS,
+        ...(stored || {}),
+        storeName: 'Veltrix',
+        email: stored?.email === 'support@storetech.pk' ? 'support@veltrix.pk' : (stored?.email || 'support@veltrix.pk'),
+        heroSubtitle: stored?.heroSubtitle?.replace(/Store Tech/g, 'Veltrix') || INITIAL_SETTINGS.heroSubtitle,
+        whatsappMessage: stored?.whatsappMessage?.includes('Store Tech')
+          ? 'Hello Veltrix! I need assistance with product availability and orders.'
+          : (stored?.whatsappMessage || INITIAL_SETTINGS.whatsappMessage),
+        bankDetails: {
+          ...INITIAL_SETTINGS.bankDetails,
+          ...(stored?.bankDetails || {}),
+          accountTitle: 'VELTRIX PRIVATE LIMITED',
+        },
+        jazzCashDetails: {
+          ...INITIAL_SETTINGS.jazzCashDetails,
+          ...(stored?.jazzCashDetails || {}),
+          accountTitle: 'Veltrix Official',
+        },
+        easyPaisaDetails: {
+          ...INITIAL_SETTINGS.easyPaisaDetails,
+          ...(stored?.easyPaisaDetails || {}),
+          accountTitle: 'Veltrix Digital',
+        },
+      };
+      try {
+        localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(upgraded));
+      } catch {}
+      return upgraded;
+    }
+    return stored;
+  });
   const [adminNotifications, setAdminNotifications] = useState<AdminNotification[]>(() =>
     getStoredItem(STORAGE_KEYS.NOTIFICATIONS, INITIAL_NOTIFICATIONS)
   );
@@ -742,7 +774,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       phone,
       role: 'customer',
     });
-    showToast(`Account created successfully! Welcome to Store Tech, ${name}.`);
+    showToast(`Account created successfully! Welcome to Veltrix, ${name}.`);
     return true;
   };
 
@@ -757,19 +789,29 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     await new Promise((resolve) => setTimeout(resolve, 600));
 
     const cleanEmail = email.trim().toLowerCase();
-    const validEmails = ['admin@storetech.pk', 'admin@storetech.com', 'manager@storetech.pk'];
+    const validEmails = [
+      'admin@veltrix.pk',
+      'admin@veltrix.com',
+      'manager@veltrix.pk',
+      'admin@storetech.pk',
+      'admin@storetech.com',
+      'manager@storetech.pk',
+      'umairkamboh953@gmail.com',
+    ];
 
-    if ((validEmails.includes(cleanEmail) || cleanEmail.includes('admin')) && (password === 'admin123' || password === 'storetech2026')) {
+    const validPasswords = ['admin123', 'veltrix2026', 'veltrix123', 'storetech2026'];
+
+    if ((validEmails.includes(cleanEmail) || cleanEmail.includes('admin') || cleanEmail.includes('veltrix')) && (validPasswords.includes(password) || password === 'admin123')) {
       const adminProfile: AdminUser = {
         id: 'adm-01',
-        name: 'Store Tech Administrator',
+        name: 'Veltrix Administrator',
         email: cleanEmail,
         role: 'admin',
         lastLogin: new Date().toISOString(),
       };
       setIsAdminAuthenticated(true);
       setAdminUser(adminProfile);
-      showToast('Admin session authorized. Welcome to Store Tech Admin Console!');
+      showToast('Admin session authorized. Welcome to Veltrix Admin Console!');
       navigateTo('admin', { adminTab: 'dashboard' });
       return { success: true };
     }
@@ -784,7 +826,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     // Simulated Google OAuth authorization verification
     await new Promise((resolve) => setTimeout(resolve, 700));
 
-    const email = googleUser?.email || 'admin@storetech.pk';
+    const email = googleUser?.email || 'admin@veltrix.pk';
     const name = googleUser?.name || 'Umair Kamboh (Super Admin)';
     const adminProfile: AdminUser = {
       id: `adm-google-${Date.now()}`,

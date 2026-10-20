@@ -41,7 +41,7 @@ export const GalleryImagePicker: React.FC<GalleryImagePickerProps> = ({
   onImageChange,
   maxImages = 8,
   label = 'Product Images',
-  helperText = 'Select photos directly from your phone/device gallery or browse the Store Tech media library. No image URLs required.',
+  helperText = 'Select photos directly from your phone/device gallery or browse the Veltrix media library. No image URLs required.',
 }) => {
   const { galleryAssets, addGalleryAsset, showToast } = useStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -354,7 +354,7 @@ export const GalleryImagePicker: React.FC<GalleryImagePickerProps> = ({
               <div>
                 <div className="flex items-center gap-2">
                   <FolderOpen className="w-5 h-5 text-cyan-400" />
-                  <h3 className="font-bold text-sm text-white">Store Tech Media Library</h3>
+                  <h3 className="font-bold text-sm text-white">Veltrix Media Library</h3>
                 </div>
                 <p className="text-[11px] text-slate-400 mt-0.5">
                   Choose authentic product and category photos stored in the platform gallery.

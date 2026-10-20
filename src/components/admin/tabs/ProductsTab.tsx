@@ -247,7 +247,7 @@ export const ProductsTab: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `StoreTech_Products_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.download = `Veltrix_Products_${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
     showToast('Catalog exported to CSV successfully.');
   };
@@ -707,7 +707,7 @@ export const ProductsTab: React.FC = () => {
                   images={images}
                   onImagesChange={setImages}
                   label="Product Media Gallery (Device Gallery & Media Library)"
-                  helperText="Upload photos from your phone/computer gallery or select from the Store Tech media library. No image URLs required."
+                  helperText="Upload photos from your phone/computer gallery or select from the Veltrix media library. No image URLs required."
                 />
               </div>
 

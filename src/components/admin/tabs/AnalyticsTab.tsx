@@ -184,7 +184,7 @@ export const AnalyticsTab: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-base font-bold text-white tracking-tight">Revenue Breakdown (PKR)</h3>
-              <p className="text-xs text-slate-400">Income received by Store Tech platform</p>
+              <p className="text-xs text-slate-400">Income received by Veltrix platform</p>
             </div>
             <span className="text-xs bg-slate-800 text-cyan-400 font-mono px-2.5 py-1 rounded-lg">
               {timeframe.toUpperCase()}
